@@ -8,6 +8,8 @@ EthernetUDP udpReceiver;
 void roveEthernet_NetworkingStart(roveIP myIP)
 {
   Ethernet.begin(0, myIP);
+  Ethernet.enableLinkLed();
+  Ethernet.enableActivityLed();
 }
 
 roveIP roveEthernet_SetIP(uint8_t first_octet, uint8_t second_octet, uint8_t third_octet, uint8_t fourth_octet)
