@@ -77,7 +77,7 @@ bool digitalPinWrite(uint8_t pinNumber, bool outputLevel, uint8_t outputMode, ui
   uint32_t portBase;
   uint8_t outputMask;
 
-  if(MinPower < outputPowerLevel && outputLevel < MaxPower)
+  if(MinPower <= outputPowerLevel && outputLevel <= MaxPower)
   {
     if(validatePin(pinNumber, &pinMask, &portBase))
     {

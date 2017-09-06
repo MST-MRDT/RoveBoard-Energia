@@ -43,7 +43,7 @@ roveBoard_ERROR roveUartRead(roveUART_Handle uart, void* read_buffer, size_t byt
 
   for (int i =0; i<bytes_to_read; i++) {
     while(serial -> available() == 0);
-    ((char*)read_buffer)[i] = serial -> read();//Serial.println(temp[i],DEC);
+    ((unsigned char*)read_buffer)[i] = serial -> read();//Serial.println(temp[i],DEC);
   }
 
   return ROVE_BOARD_ERROR_SUCCESS;
