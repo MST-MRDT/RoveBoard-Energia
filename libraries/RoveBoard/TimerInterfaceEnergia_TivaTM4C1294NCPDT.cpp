@@ -1,4 +1,4 @@
-#include "TimerInterface_TivaTM4C1294NCPDT.h"
+#include "TimerInterfaceEnergia_TivaTM4C1294NCPDT.h"
 #include "driverlib/timer.h"
 #include "inc/hw_memmap.h"
 #include "driverlib/interrupt.h"
@@ -27,10 +27,8 @@ typedef struct TimerData
   uint32_t timerBIntEnableId;
   void (*attachedAFunction)(void);
   void (*attachedBFunction)(void);
-  void (*baseAFunction)(void);
-  void (*baseBFunction)(void);
-  
-  TimerData(uint8_t tId, uint32_t tAI, uint32_t tBI, uint32_t tAC, 
+
+  TimerData(uint8_t tId, uint32_t tAI, uint32_t tBI, uint32_t tAC,
             uint32_t tBC, uint32_t tAL, uint32_t tBL, uint32_t tB, uint32_t tPI, uint32_t tAII, uint32_t tBII, void (*intAHandler)(void), void (*intBHandler)(void))
   {
     timerId = tId;
@@ -44,8 +42,10 @@ typedef struct TimerData
     timerPeriphId = tPI;
     timerAIntEnableId = tAII;
     timerBIntEnableId = tBII;
-    baseAFunction = intAHandler;
-    baseBFunction = intBHandler;
+
+    //register interrupt functions
+    TimerIntRegister(timerBase, TIMER_A, intAHandler);
+    TimerIntRegister(timerBase, TIMER_A, intBHandler);
   }
 } TimerData;
 
@@ -87,11 +87,11 @@ void setupTimer(uint32_t timerId, uint32_t interruptId, uint32_t timerTimeout_us
 {
   assertTimerId(timerId);
   assertInterruptId(interruptId);
-  
+
   TimerData * timerData = getTimerData(timerId);
- 
+
   setupTimerData(timerData, interruptId, timerTimeout_us);
-  
+
   //enable timer hardware
   SysCtlPeripheralEnable(timerData->timerPeriphId);
 
@@ -105,20 +105,16 @@ void setupTimer(uint32_t timerId, uint32_t interruptId, uint32_t timerTimeout_us
 
   //configure timer for its specified operation
   TimerConfigure(timerData->timerBase, timerData->timerAConfig);
-  
-  //set timer load 
-  TimerLoadSet(timerData->timerBase, TIMER_A, timerData->timerALoad); 
 
-  //register interrupt functions
-  TimerIntRegister(timerData->timerBase, TIMER_A, timerData->baseAFunction);
-  TimerIntRegister(timerData->timerBase, TIMER_B,  timerData->baseBFunction);
+  //set timer load
+  TimerLoadSet(timerData->timerBase, TIMER_A, timerData->timerALoad);
 
-  //set up interrupts. The order here is actually important, TI's forums reccomend 
+  //set up interrupts. The order here is actually important, TI's forums reccomend
   //setting up new interrupts in this exact fashion
   TimerIntClear(timerData->timerBase, timerData->timerAInterrupt);
   TimerIntEnable(timerData->timerBase, timerData->timerAInterrupt);
   IntEnable(timerData->timerAIntEnableId);
-  
+
   //enable master system interrupt
   IntMasterEnable();
 }
@@ -127,7 +123,7 @@ void startTimer(uint32_t timerId)
 {
   assertTimerId(timerId);
   TimerData * timerData = getTimerData(timerId);
-  
+
   TimerIntClear(timerData->timerBase, timerData->timerAInterrupt);
   TimerIntEnable(timerData->timerBase, timerData->timerAInterrupt);
   TimerEnable(timerData->timerBase, TIMER_A);
@@ -137,7 +133,7 @@ void stopTimer(uint32_t timerId)
 {
   assertTimerId(timerId);
   TimerData * timerData = getTimerData(timerId);
-  
+
   TimerIntClear(timerData->timerBase, timerData->timerAInterrupt);
   TimerDisable(timerData->timerBase, TIMER_A);
   TimerIntDisable(timerData->timerBase, timerData->timerAInterrupt);
@@ -146,7 +142,7 @@ void stopTimer(uint32_t timerId)
 void attachTimerInterrupt(uint32_t timerId, void (*interruptFunc)(void) )
 {
   TimerData * timerData = getTimerData(timerId);
-  
+
   timerData->attachedAFunction = interruptFunc;
 }
 
@@ -156,25 +152,25 @@ static TimerData* getTimerData(uint8_t timerId)
   {
     case Timer0:
       return &timer0Data;
-      
+
     case Timer1:
       return &timer1Data;
-      
+
     case Timer2:
       return &timer2Data;
-      
+
     case Timer3:
       return &timer3Data;
-      
+
     case Timer4:
       return &timer4Data;
-      
+
     case Timer5:
       return &timer5Data;
-      
+
     case Timer6:
       return &timer6Data;
-      
+
     case Timer7:
       return &timer7Data;
 
@@ -289,7 +285,7 @@ static void genBHandler(TimerData * timerData)
 static void setupTimerData(TimerData * timerData, uint8_t timerInterruptId, uint32_t timerTimeout_us)
 {
   uint32_t timerLoad = (float)F_PIOSC * ((float)timerTimeout_us/1000000.0); // timer clock cycle (16Mhz cycle/second) * (microsecond timeout/10000000 to convert it to seconds) = cycles till the timeout passes
-  
+
   timerData->timerALoad = timerLoad;
   timerData->timerAConfig = intIdToTivawareConfig[timerInterruptId];
   timerData->timerAInterrupt = intIdToTivawareIntA[timerInterruptId];
