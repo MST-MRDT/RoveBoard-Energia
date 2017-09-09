@@ -33,7 +33,8 @@ The files that follow naming conventions such as "Clocking_[processor name]" con
 
 99) If you're making a new roveware component, have it include "RoveBoard.h" to get all the generic, universally supported functions you can use.
 
-
+##Conflicts with Energia:
+* Tiva tm4c1294ncpdt: Pwm reading and AnalogWrite conflict, as they both use timers. Typically try to use pwmWrite instead; if you do use analogWrite, try and read through any included roveware libraries to make sure they're not using pwm read
 
 ## Adding more boards/functions to existing boards
 1) Add a RoveBoard_x.h for it. 
@@ -41,6 +42,7 @@ The files that follow naming conventions such as "Clocking_[processor name]" con
 3) Make sure that you aren't trying to re-define energia's commands; if you're importing an update from the main version, you have to a) take out functions and consts that conflict with energia and b) put everything into one folder, so also remove any folder directories in all the #include statements.
 4) Make sure it compiles and test it first; you can use the included example code from 2016's arm, if you want
 5) For pete's sake, make sure the H files at the very least include halfway decent comments/documentation; make sure at the least the programmers know what hardware components are used when a function is called so they can avoid conflicts if necessary and aren't blindsided by anything. High visibility is a key difference between what we do and what arduino/energia does
+6) Be sure to update the pinmap in the wiki, if relevant
 
 ##Differences between this and the main version
 They're functionally identical; the difference is a) no more subfolders b) the individual files have had all functions and consts that energia itself provides shaved out
