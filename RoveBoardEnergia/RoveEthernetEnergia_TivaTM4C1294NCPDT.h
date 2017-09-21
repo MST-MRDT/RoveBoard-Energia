@@ -13,7 +13,7 @@
 #include <stdint.h>
 #include <stddef.h>
 #include <stdbool.h>
-#include "RoveTypenames.h"
+#include "RoveEthernetTypenames.h"
 #include "Energia.h"
 
 #define ROVE_IP_ADDR_NONE INADDR_NONE

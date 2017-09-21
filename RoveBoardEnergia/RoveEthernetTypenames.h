@@ -1,7 +1,8 @@
-#ifndef ROVETYPENAMES_H_
-#define ROVETYPENAMES_H_
-#include "Energia.h"
-#include <IPAddress.h>
+#ifndef ROVEETHERNETTYPENAMES_H_
+#define ROVEETHERNETTYPENAMES_H_
+
+#include <stdint.h>
+#include "IPAddress.h"
 
 typedef enum
 {
@@ -13,15 +14,5 @@ typedef enum
 } roveEthernet_Error;
 
 typedef IPAddress roveIP;
-
-typedef enum {
-    ROVE_BOARD_ERROR_SUCCESS = 0,
-    ROVE_BOARD_ERROR_UNKNOWN = -1
-} roveBoard_ERROR;
-
-typedef struct roveUART_Handle
-{
-	unsigned int uart_index;
-} roveUART_Handle;
 
 #endif

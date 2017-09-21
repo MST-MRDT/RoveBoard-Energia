@@ -6,7 +6,7 @@
 #define ROVEBOARD_TM4C1294NCPDT_ROVEBOARD_GENERICS_ROVEUART_H_
 
 #include <stddef.h>
-#include "RoveTypenames.h"
+#include "RoveUartTypenames.h"
 
 //settings arguments:
 //constants to set word length in transmission in bits

@@ -9,7 +9,7 @@
 #define ROVEBOARD_ENERGIA_VERSION_ROVEBOARD_ROVEUARTENERGIA_TIVATM4C1294NCPDT_H_
 
 #include <stddef.h>
-#include "RoveTypenames.h"
+#include "RoveUartTypenames.h"
 #include "Energia.h"
 
 roveUART_Handle roveUartOpen(unsigned int uart_index, unsigned int baud_rate);

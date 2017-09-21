@@ -16,5 +16,6 @@
 #include "RoveEthernetEnergia_TivaTM4C1294NCPDT.h"
 #include "TimerInterfaceEnergia_TivaTM4C1294NCPDT.h"
 #include "RoveUartEnergia_TivaTM4C1294NCPDT.h"
+#include "RoveI2CEnergia_TivaTM4C1294NCPDT.h"
 
 #endif /* ROVEBOARD_ENERGIA_VERSION_ROVEBOARD_ROVEBOARDENERGIA_TIVATM4C1294NCPDT_H_ */
