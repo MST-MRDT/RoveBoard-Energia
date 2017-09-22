@@ -624,15 +624,15 @@ RoveI2C_Error roveI2cReceive(RoveI2C_Handle handle, uint16_t SlaveAddr, uint8_t*
 
   if(timedOut)
   {
-   return(I2CERROR_TIMEOUT);
+    return(I2CERROR_TIMEOUT);
   }
   else if(I2CMasterErr(i2cBase) == I2C_MASTER_ERR_ADDR_ACK || I2CMasterErr(i2cBase) == I2C_MASTER_ERR_DATA_ACK)
   {
-   return(I2CERROR_ACK);
+    return(I2CERROR_ACK);
   }
   else if(I2CMasterErr(i2cBase) != I2C_MASTER_ERR_NONE)
   {
-   return(I2CERROR_OTHER);
+    return(I2CERROR_OTHER);
   }
   else
   {
@@ -679,15 +679,17 @@ RoveI2C_Error roveI2cReceive(RoveI2C_Handle handle, uint16_t SlaveAddr, uint8_t 
 
   if(timedOut)
   {
-   return(I2CERROR_TIMEOUT);
+    return(I2CERROR_TIMEOUT);
   }
   else if(I2CMasterErr(i2cBase) == I2C_MASTER_ERR_ADDR_ACK || I2CMasterErr(i2cBase) == I2C_MASTER_ERR_DATA_ACK)
   {
-   return(I2CERROR_ACK);
+    I2CMasterControl(i2cBase, I2C_MASTER_CMD_BURST_SEND_ERROR_STOP);
+    return(I2CERROR_ACK);
   }
   else if(I2CMasterErr(i2cBase) != I2C_MASTER_ERR_NONE)
   {
-   return(I2CERROR_OTHER);
+    I2CMasterControl(i2cBase, I2C_MASTER_CMD_BURST_SEND_ERROR_STOP);
+    return(I2CERROR_OTHER);
   }
   else {} //error == err_none, so continue
 
@@ -705,28 +707,28 @@ RoveI2C_Error roveI2cReceive(RoveI2C_Handle handle, uint16_t SlaveAddr, uint8_t 
   //Wait until MCU is done transferring or it times out
   while(I2CMasterBusy(i2cBase) && !timedOut)
   {
-   //check to see if the clock out bit in the master control register has been set or not; if it has, then
-   //the device has held the clock line low for too long and the module needs reset
-   timedOut = (HWREG(i2cBase + I2C_O_MCS) & I2C_MCS_CLKTO) > 0 ? true: false;
+    //check to see if the clock out bit in the master control register has been set or not; if it has, then
+    //the device has held the clock line low for too long and the module needs reset
+    timedOut = (HWREG(i2cBase + I2C_O_MCS) & I2C_MCS_CLKTO) > 0 ? true: false;
   }
 
   if(timedOut)
   {
-   return(I2CERROR_TIMEOUT);
+    return(I2CERROR_TIMEOUT);
   }
   else if(I2CMasterErr(i2cBase) == I2C_MASTER_ERR_ADDR_ACK || I2CMasterErr(i2cBase) == I2C_MASTER_ERR_DATA_ACK)
   {
-   return(I2CERROR_ACK);
+    return(I2CERROR_ACK);
   }
   else if(I2CMasterErr(i2cBase) != I2C_MASTER_ERR_NONE)
   {
-   return(I2CERROR_OTHER);
+    return(I2CERROR_OTHER);
   }
   else
   {
-    //return data pulled from the specified register, returns uint32_t even though it only contains a byte
-    *buffer = I2CMasterDataGet(i2cBase);
-    return(I2CERROR_NONE);
+     //return data pulled from the specified register, returns uint32_t even though it only contains a byte
+     *buffer = I2CMasterDataGet(i2cBase);
+     return(I2CERROR_NONE);
   }
 }
 
@@ -766,11 +768,13 @@ RoveI2C_Error roveI2cReceiveBurst(RoveI2C_Handle handle, uint16_t SlaveAddr, uin
   }
   else if(I2CMasterErr(i2cBase) == I2C_MASTER_ERR_ADDR_ACK || I2CMasterErr(i2cBase) == I2C_MASTER_ERR_DATA_ACK)
   {
-   return(I2CERROR_ACK);
+    I2CMasterControl(i2cBase, I2C_MASTER_CMD_BURST_RECEIVE_ERROR_STOP);
+    return(I2CERROR_ACK);
   }
   else if(I2CMasterErr(i2cBase) != I2C_MASTER_ERR_NONE)
   {
-   return(I2CERROR_OTHER);
+    I2CMasterControl(i2cBase, I2C_MASTER_CMD_BURST_RECEIVE_ERROR_STOP);
+    return(I2CERROR_OTHER);
   }
   else
   {
@@ -797,15 +801,17 @@ RoveI2C_Error roveI2cReceiveBurst(RoveI2C_Handle handle, uint16_t SlaveAddr, uin
 
     if(timedOut)
     {
-     return(I2CERROR_TIMEOUT);
+      return(I2CERROR_TIMEOUT);
     }
     else if(I2CMasterErr(i2cBase) == I2C_MASTER_ERR_ADDR_ACK || I2CMasterErr(i2cBase) == I2C_MASTER_ERR_DATA_ACK)
     {
-     return(I2CERROR_ACK);
+      I2CMasterControl(i2cBase, I2C_MASTER_CMD_BURST_RECEIVE_ERROR_STOP);
+      return(I2CERROR_ACK);
     }
     else if(I2CMasterErr(i2cBase) != I2C_MASTER_ERR_NONE)
     {
-     return(I2CERROR_OTHER);
+      I2CMasterControl(i2cBase, I2C_MASTER_CMD_BURST_RECEIVE_ERROR_STOP);
+      return(I2CERROR_OTHER);
     }
     else
     {
@@ -884,15 +890,17 @@ RoveI2C_Error roveI2cReceiveBurst(RoveI2C_Handle handle, uint16_t SlaveAddr,  ui
 
   if(timedOut)
   {
-   return(I2CERROR_TIMEOUT);
+    return(I2CERROR_TIMEOUT);
   }
   else if(I2CMasterErr(i2cBase) == I2C_MASTER_ERR_ADDR_ACK || I2CMasterErr(i2cBase) == I2C_MASTER_ERR_DATA_ACK)
   {
-   return(I2CERROR_ACK);
+    I2CMasterControl(i2cBase, I2C_MASTER_CMD_BURST_SEND_ERROR_STOP);
+    return(I2CERROR_ACK);
   }
   else if(I2CMasterErr(i2cBase) != I2C_MASTER_ERR_NONE)
   {
-   return(I2CERROR_OTHER);
+    I2CMasterControl(i2cBase, I2C_MASTER_CMD_BURST_SEND_ERROR_STOP);
+    return(I2CERROR_OTHER);
   }
   else {} //no error, continue
 
@@ -917,15 +925,17 @@ RoveI2C_Error roveI2cReceiveBurst(RoveI2C_Handle handle, uint16_t SlaveAddr,  ui
 
   if(timedOut)
   {
-   return(I2CERROR_TIMEOUT);
+    return(I2CERROR_TIMEOUT);
   }
   else if(I2CMasterErr(i2cBase) == I2C_MASTER_ERR_ADDR_ACK || I2CMasterErr(i2cBase) == I2C_MASTER_ERR_DATA_ACK)
   {
-   return(I2CERROR_ACK);
+    I2CMasterControl(i2cBase, I2C_MASTER_CMD_BURST_RECEIVE_ERROR_STOP);
+    return(I2CERROR_ACK);
   }
   else if(I2CMasterErr(i2cBase) != I2C_MASTER_ERR_NONE)
   {
-   return(I2CERROR_OTHER);
+    I2CMasterControl(i2cBase, I2C_MASTER_CMD_BURST_RECEIVE_ERROR_STOP);
+    return(I2CERROR_OTHER);
   }
   else
   {} //no error, continue
@@ -943,7 +953,7 @@ RoveI2C_Error roveI2cReceiveBurst(RoveI2C_Handle handle, uint16_t SlaveAddr,  ui
     while(!I2CMasterBusy(i2cBase));
 
     //Wait until MCU is done transferring or it times out
-      while(I2CMasterBusy(i2cBase) && !timedOut)
+    while(I2CMasterBusy(i2cBase) && !timedOut)
     {
      //check to see if the clock out bit in the master control register has been set or not; if it has, then
      //the device has held the clock line low for too long and the module needs reset
@@ -956,11 +966,13 @@ RoveI2C_Error roveI2cReceiveBurst(RoveI2C_Handle handle, uint16_t SlaveAddr,  ui
     }
     else if(I2CMasterErr(i2cBase) == I2C_MASTER_ERR_ADDR_ACK || I2CMasterErr(i2cBase) == I2C_MASTER_ERR_DATA_ACK)
     {
-     return(I2CERROR_ACK);
+      I2CMasterControl(i2cBase, I2C_MASTER_CMD_BURST_RECEIVE_ERROR_STOP);
+      return(I2CERROR_ACK);
     }
     else if(I2CMasterErr(i2cBase) != I2C_MASTER_ERR_NONE)
     {
-     return(I2CERROR_OTHER);
+      I2CMasterControl(i2cBase, I2C_MASTER_CMD_BURST_RECEIVE_ERROR_STOP);
+      return(I2CERROR_OTHER);
     }
     else {} //no error, continue
 
