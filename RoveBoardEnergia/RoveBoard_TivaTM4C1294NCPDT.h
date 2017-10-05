@@ -11,12 +11,12 @@
 #include "RovePinMapEnergia_TivaTM4C1294NCPDT.h"
 #include "ClockingEnergia_TivaTM4C1294NCPDT.h"
 #include "DigitalPinEnergia_TivaTM4C1294NCPDT.h"
-#include "PwmWriterEnergia_TivaTM4C1294NCPDT.h"
+#include "RovePwmWriteEnergia_TivaTM4C1294NCPDT.h"
 #include "RoveEthernetEnergia_TivaTM4C1294NCPDT.h"
-#include "TimerInterfaceEnergia_TivaTM4C1294NCPDT.h"
+#include "RoveTimerEnergia_TivaTM4C1294NCPDT.h"
 #include "RoveUartEnergia_TivaTM4C1294NCPDT.h"
 #include "RoveI2CEnergia_TivaTM4C1294NCPDT.h"
-#include "PwmReaderEnergia_TivaTM4C1294NCPDT.h"
+#include "RovePwmReadEnergia_TivaTM4C1294NCPDT.h"
 
 //disable usage of analogWrite since it conflicts with pwm read. 
 //put '#define ANALOGWRITE_ENABLE' at the top of your H file
