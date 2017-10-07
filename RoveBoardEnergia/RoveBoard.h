@@ -10,6 +10,7 @@
 #include "RoveUart.h"
 #include "RoveTimer.h"
 #include "RoveI2C.h"
+#include "Debug.h"
 
 
 #endif /* ROVEBOARD_ROVEBOARD_H_ */

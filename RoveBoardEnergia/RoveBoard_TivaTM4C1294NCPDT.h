@@ -17,6 +17,7 @@
 #include "RoveUartEnergia_TivaTM4C1294NCPDT.h"
 #include "RoveI2CEnergia_TivaTM4C1294NCPDT.h"
 #include "RovePwmReadEnergia_TivaTM4C1294NCPDT.h"
+#include "Debug.h"
 
 //disable usage of analogWrite since it conflicts with pwm read. 
 //put '#define ANALOGWRITE_ENABLE' at the top of your H file
