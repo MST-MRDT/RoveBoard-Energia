@@ -25,7 +25,7 @@ const uint8_t Timer6 = 6;
 const uint8_t Timer7 = 7;
 
 //interrupt id's
-const uint8_t TimerPeriodicInterrupt = 0;
+#define TimerPeriodicInterrupt 0
 
 //sets up the specified timer to generate the specified interrupt at a specified rate
 //Input: Timer Id, the interruptId based on above constants, and how frequently
