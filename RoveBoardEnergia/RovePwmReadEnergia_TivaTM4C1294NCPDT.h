@@ -46,13 +46,21 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include "Energia.h"
-#include "RovePwmReadStructures.h"
+#include "RovePwmRead.h"
 
-const int readModule1 = 1;
-const int readModule2 = 2;
-const int readModule3 = 3;
-const int readModule4 = 4;
-const int readModule5 = 5;
+//interrupt priorities on the tiva go from 0-7, 0 highest priority.
+//edge capture interrupt = interrupt triggered when a pwm wave comes in from the gpio pin
+//timeout interrupt = interrupt triggered when timer times out (ran in parallel with edge capture, used
+// to detect when no edge has come in in a certain amount of time)
+const uint8_t PwmReadEdgeCaptureInterruptPriority_Default = 2;
+const uint8_t PwmReadTimeoutInterruptPriority_Default = 3;
+
+const int ReadModule0 = 0;
+const int ReadModule1 = 1;
+const int ReadModule2 = 2;
+const int ReadModule3 = 3;
+const int ReadModule4 = 4;
+const int ReadModule5 = 5;
 
 //Begins reading pwm pulses on the specified pin using the specified timer.
 //Input: The pwmRead module to use, and which of its associated GPIO pins are to be used
@@ -85,6 +93,10 @@ uint32_t getTotalPeriod_us(rovePwmRead_Handle handle);
 //Output: On-period of pulse in microseconds
 uint32_t getOnPeriod_us(rovePwmRead_Handle handle);
 
-
+//Sets the interrupt priority for the specified reading instance
+//Input: The handle for the pwm reading instance to modify, the priority of the edge capture, priority of timeout.
+//       The priority is between 0 and 7, with 0 being highest priority.
+//Note: initPwmRead must be called before hand
+void setPwmReadInterruptPriority(rovePwmRead_Handle handle, uint8_t edgeCapturePriority, uint8_t timeoutCapturePriority);
 
 #endif /* ROVEBOARD_ENERGIA_VERSION_ROVEBOARD_PWMREADERENERGIA_TIVATM4C1294NCPDT_H_ */

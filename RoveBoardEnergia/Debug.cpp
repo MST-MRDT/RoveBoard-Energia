@@ -7,7 +7,7 @@
 
 #include "Debug.h"
 
-#ifdef ROVEDEBUG_PERMISSIVE
+#ifdef ROVEDEBUG_NO_DEBUG
 void debugFault(char msg[])
 {
 }

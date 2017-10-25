@@ -12,7 +12,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include "Energia.h"
-#include "RoveTimerStructures.h"
+#include "RoveTimer.h"
 
 //timer id's
 const uint8_t Timer0 = 0;

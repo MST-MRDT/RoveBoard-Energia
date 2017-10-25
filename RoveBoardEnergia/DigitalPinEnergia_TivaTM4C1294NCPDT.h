@@ -23,7 +23,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include "Energia.h"
-#include "DigitalPinStructures.h"
+#include "DigitalPin.h"
 
 //pin mode constants
 const uint8_t Output = 0; //generic digital out signal (pulls signal to high or low voltage). Default output mode

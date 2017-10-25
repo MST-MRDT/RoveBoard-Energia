@@ -11,8 +11,6 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-#include "DigitalPinStructures.h"
-
 //returns if the voltage on the passed pin is at the digital HIGH voltage level or the digital LOW voltage level.
 //High voltage = 1 in code, low voltage = 0 in code, what those are in volts is hardware dependant.
 //Inputs: number of the pin to read from, as defined in the board's PinMap file.

@@ -10,7 +10,17 @@
 
 #include <stdint.h>
 #include <stdbool.h>
-#include "RovePwmReadStructures.h"
+
+typedef struct rovePwmRead_Handle
+{
+  bool initialized;
+  uint16_t mappedPin;
+
+  rovePwmRead_Handle()
+  {
+    initialized = false;
+  }
+} rovePwmRead_Handle;
 
 //Begins reading pwm pulses on the specified pin using the specified timer.
 //Input: The pwmRead module to use, and which of its associated GPIO pins are to be used

@@ -15,13 +15,18 @@ It's not necessary for every microcontroller to implement every feature noted in
 
 Be sure to read the wiki for more helpful things such as visual pinmaps.
 
-## Files 
-To start, you'll see a series of files that follow the naming pattern of "RoveBoard.h" and "RoveBoard_(microcontroller name).h". The former is the primary include for roveware files like RoveComm to include, and returns a list of prototyped functions that each board that supports their feature has an instance of. But, Roveboard.h importantly doesn't return the actual definitions of those functions, just the names and the fact that they exist. The other roveboard files like "RoveBoard_TM4C1294NCPDT.h" return those functions and others that work specifically on the tm4c and define them. 
-The files that follow naming conventions such as "Clocking.h" contain generic functions for the feature they implement.
-The files that follow naming conventions such as "Clocking_[processor name]" contain the specific functions for that feature available for that processor.
+## Files and folders
+* At the top, you'll see a series of files that follow the naming pattern of `RoveBoard.h` and `RoveBoard_(microcontroller name).h`. 
+  - The former is the primary include for non-board-specific roveware files like RoveComm to include, and returns a list of prototyped functions for it to use. But, `Roveboard.h` importantly doesn't return the actual definitions of those functions, just the names and the fact that they exist. 
+  - The other roveboard files like `RoveBoard_TM4C1294NCPDT.h` return those functions and others that work specifically on the tm4c and define them. You need to include the roveboard for your specific microcontroller in your main.cpp file for everything to work.
+
+* The folders inside RoveBoard are split into three categories. 
+  - `standardized_API`, which contain files that prototype the standardized functions for each feature, and the typenames and constants associated with the features.
+  - `supportingUtilities`, which contain supporting functions, macros, and classes that aren't device-specific so are there to be helpful to the entire framework 
+  - lastly you'll see folders devoted to a specific processor like 'tm4c1294ncpdt_API'. Those folders contain the files that list and define the functions made for their processor, and what most users of RoveBoard will be interested in looking at.
 
 ## Supported microcontrollers and what features they implement
-* Tiva tm4c1294ncpdt - pwm writing, pwm reading, clocking, digital pin, Ethernet, Uart/serial, timerInterface, and energia's own libraries
+* Tiva tm4c1294ncpdt - pwm writing, pwm reading, clocking, digital pin, Ethernet, Uart/serial, timerInterface, I2c, PermanentMemory(EEPROM version), and energia's own libraries
 
 ## Dependencies
 * Energia, natch.
@@ -35,6 +40,7 @@ The files that follow naming conventions such as "Clocking_[processor name]" con
 
 ## Conflicts with Energia:
 * Tiva tm4c1294ncpdt: Pwm reading and AnalogWrite conflict, as they both use timers. Typically try to use pwmWrite instead; if you do use analogWrite, try and read through any included roveware libraries to make sure they're not using pwm read
+** Also, RoveUart doesn't include the ability to use callbacks or change the FIFO size
 
 ## Adding more boards/functions to existing boards
 1) Add a RoveBoard_x.h for it. 

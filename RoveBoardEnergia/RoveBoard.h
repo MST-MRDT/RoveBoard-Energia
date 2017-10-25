@@ -4,12 +4,13 @@
 #include "Energia.h"
 #include "Clocking.h"
 #include "DigitalPin.h"
+#include "RoveEthernet.h"
+#include "RoveI2C.h"
 #include "RovePwmRead.h"
 #include "RovePwmWrite.h"
-#include "RoveEthernet.h"
-#include "RoveUart.h"
 #include "RoveTimer.h"
-#include "RoveI2C.h"
+#include "RoveUart.h"
+#include "RovePermaMem.h"
 #include "Debug.h"
 
 

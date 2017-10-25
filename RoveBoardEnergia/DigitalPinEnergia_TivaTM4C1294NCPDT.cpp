@@ -112,6 +112,10 @@ bool digitalPinWrite(uint8_t pinNumber, bool outputLevel, uint8_t outputMode, ui
   return (false);
 }
 
+//checks to see if the pin the user passed is valid for digital operation.
+//returns true or false, if it was or wasn't.
+//Returns by reference the pin's mask and the pin's port base, for use in the
+//firmware calls
 static bool validatePin(uint8_t pinNumber, uint8_t * pinMask, uint32_t *portBase)
 {
   if(pinNumber > 95)

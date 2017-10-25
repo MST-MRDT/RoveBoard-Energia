@@ -2,11 +2,18 @@
 // Author: Gbenga Osibodu
 
 #include "RoveUartEnergia_TivaTm4c1294NCPDT.h"
+#include "ClockingEnergia_TivaTM4C1294NCPDT.h"
 #include "Debug.h"
 #include "stdint.h"
+#include "uart.h"
 
 static HardwareSerial* uartArray[8] = {&Serial , &Serial1, &Serial2, &Serial3,
                                   &Serial4, &Serial5, &Serial6, &Serial7};
+
+roveUART_Handle roveUartOpen(unsigned int uart_index, unsigned int baud_rate, unsigned int txPin, unsigned int rxPin)
+{
+  return roveUartOpen(uart_index, baud_rate);
+}
 
 roveUART_Handle roveUartOpen(unsigned int uart_index, unsigned int baud_rate) {
   
@@ -14,6 +21,7 @@ roveUART_Handle roveUartOpen(unsigned int uart_index, unsigned int baud_rate) {
   roveUART_Handle handle;
   handle.uart_index = uart_index;
   handle.initialized = true;
+  handle.baudRate = baud_rate;
 
   if(uart_index > 7)
   {
@@ -95,18 +103,115 @@ int roveUartAvailable(roveUART_Handle uart) {
   return serial -> available();
 }
 
-roveUart_ERROR roveUartSettings(roveUART_Handle uart,unsigned int parityBits, unsigned int stopBits, unsigned int wordLength)
+roveUart_ERROR roveUartSettings(roveUART_Handle uart, unsigned int paritySettings, unsigned int stopBitSettings, unsigned int wordLengthSettings)
 {
-  /*if(uart.initialized == false)
+  if(uart.initialized == false)
   {
-    debugFault("roveUartSettings: handle not initialized");
+    debugFault("roveUartAvailable: handle not initialized");
   }
 
   HardwareSerial* serial = uartArray[uart.uart_index];
 
-  serial -> setOutputSettings(parityBits, stopBits, wordLength);
+  uint32_t wordLength, stopBits, parityBits, uartBase;
+  switch(paritySettings)
+  {
+    case NoParity:
+      parityBits = UART_CONFIG_PAR_NONE;
+      break;
 
-  return ROVE_UART_ERROR_SUCCESS;*/
+    case EvenParity:
+      parityBits = UART_CONFIG_PAR_EVEN;
+      break;
 
-  //not available on energia
+    case OddParity:
+      parityBits = UART_CONFIG_PAR_ODD;
+      break;
+
+    case AlwaysZero:
+      parityBits = UART_CONFIG_PAR_ZERO;
+      break;
+
+    case AlwaysOne:
+      parityBits = UART_CONFIG_PAR_ONE;
+      break;
+
+    default:
+      return ROVE_UART_ERROR_UNKNOWN;
+  }
+
+  switch(stopBitSettings)
+  {
+    case OneStopBit:
+      stopBits = UART_CONFIG_STOP_ONE;
+      break;
+
+    case TwoStopBit:
+      stopBits = UART_CONFIG_STOP_TWO;
+      break;
+
+    default:
+      return ROVE_UART_ERROR_UNKNOWN;
+  }
+
+  switch(wordLengthSettings)
+  {
+    case WordLength8:
+      wordLength = UART_CONFIG_WLEN_8;
+      break;
+
+    case WordLength7:
+      wordLength = UART_CONFIG_WLEN_7;
+      break;
+
+    case WordLength6:
+      wordLength = UART_CONFIG_WLEN_6;
+      break;
+
+    case WordLength5:
+      wordLength = UART_CONFIG_WLEN_5;
+      break;
+
+    default:
+      return ROVE_UART_ERROR_UNKNOWN;
+  }
+  switch(uart.uart_index)
+  {
+    case 0:
+      uartBase = UART0_BASE;
+      break;
+
+    case 1:
+      uartBase = UART1_BASE;
+      break;
+
+    case 2:
+      uartBase = UART2_BASE;
+      break;
+
+    case 3:
+      uartBase = UART3_BASE;
+      break;
+
+    case 4:
+      uartBase = UART4_BASE;
+      break;
+      
+    case 5:
+      uartBase = UART5_BASE;
+      break;
+      
+    case 6:
+      uartBase = UART6_BASE;
+      break;
+      
+    case 7:
+      uartBase = UART7_BASE;
+      break;
+      
+  }
+
+  //function call automatically stops uart for configuration
+  UARTConfigSetExpClk(uartBase, getCpuClockFreq(), uart.baudRate, (wordLength | parityBits |stopBits));
+
+  return ROVE_UART_ERROR_SUCCESS;
 }

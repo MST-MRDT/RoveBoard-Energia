@@ -58,7 +58,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include "Energia.h"
-#include "RovePwmWriteStructures.h"
+#include "RovePwmWrite.h"
 //Decides the alignment of the PWM wave. That is, where the pulse is generated in the overall waveform.
 //For example, leftAligned generates a pulse like this:   --____
 //Center aligned would look like this: __--__

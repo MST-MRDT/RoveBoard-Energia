@@ -3,7 +3,17 @@
 
 #include <stdint.h>
 #include <stdbool.h>
-#include "RoveTimerStructures.h"
+
+typedef struct roveTimer_Handle
+{
+    bool initialized;
+    uint16_t index;
+
+    roveTimer_Handle()
+    {
+      initialized = false;
+    }
+} roveTimer_Handle;
 
 //interrupt id's
 #define TimerPeriodicInterrupt 0

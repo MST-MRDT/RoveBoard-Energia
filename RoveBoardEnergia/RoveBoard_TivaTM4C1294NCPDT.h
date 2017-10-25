@@ -8,15 +8,20 @@
 #ifndef ROVEBOARD_ENERGIA_VERSION_ROVEBOARD_ROVEBOARDENERGIA_TIVATM4C1294NCPDT_H_
 #define ROVEBOARD_ENERGIA_VERSION_ROVEBOARD_ROVEBOARDENERGIA_TIVATM4C1294NCPDT_H_
 
-#include "RovePinMapEnergia_TivaTM4C1294NCPDT.h"
+//sysinit always before anything else
+#include "SysInitEnergia_TivaTM4C1294NCPDT.h"
+static int dummySoThisRunsBeforeMain = (initSystem(), 0);
+
 #include "ClockingEnergia_TivaTM4C1294NCPDT.h"
 #include "DigitalPinEnergia_TivaTM4C1294NCPDT.h"
+#include "RovePwmReadEnergia_TivaTM4C1294NCPDT.h"
 #include "RovePwmWriteEnergia_TivaTM4C1294NCPDT.h"
 #include "RoveEthernetEnergia_TivaTM4C1294NCPDT.h"
+#include "RovePinMapEnergia_TivaTM4C1294NCPDT.h"
 #include "RoveTimerEnergia_TivaTM4C1294NCPDT.h"
 #include "RoveUartEnergia_TivaTM4C1294NCPDT.h"
 #include "RoveI2CEnergia_TivaTM4C1294NCPDT.h"
-#include "RovePwmReadEnergia_TivaTM4C1294NCPDT.h"
+#include "RovePermaMemEnergia_TivaTM4C1294NCPDT.h"
 #include "Debug.h"
 
 //disable usage of analogWrite since it conflicts with pwm read. 

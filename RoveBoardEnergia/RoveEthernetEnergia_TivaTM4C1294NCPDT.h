@@ -22,7 +22,7 @@
 #include <stddef.h>
 #include <stdbool.h>
 #include "Energia.h"
-#include "RoveEthernetStructures.h"
+#include "RoveEthernet.h"
 
 #define ROVE_IP_ADDR_NONE INADDR_NONE
 

@@ -10,7 +10,18 @@
 
 #include <stdint.h>
 #include <stdbool.h>
-#include "RovePwmWriteStructures.h"
+
+typedef struct rovePwmWrite_Handle
+{
+  bool initialized;
+  uint16_t index;
+  uint16_t pin;
+
+  rovePwmWrite_Handle()
+  {
+    initialized = false;
+  }
+}rovePwmWrite_Handle;
 
 //sets up the pwm generator to be able to write a pwm wave on the specified pin
 //inputs:
