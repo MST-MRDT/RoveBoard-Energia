@@ -40,7 +40,9 @@ Be sure to read the wiki for more helpful things such as visual pinmaps.
 
 ## Conflicts with Energia:
 * Tiva tm4c1294ncpdt: Pwm reading and AnalogWrite conflict, as they both use timers. Typically try to use pwmWrite instead; if you do use analogWrite, try and read through any included roveware libraries to make sure they're not using pwm read
-** Also, RoveUart doesn't include the ability to use callbacks or change the FIFO size
+  - Also, RoveUart doesn't include the ability to use callbacks or change the FIFO size
+  - Also, EthernetUDP and RoveEthernet cannot both work at the same time. You choose one or the other; RoveEthernet is enabled by   default, the user has the option of disabling it in favor of EthernetUDP if they wish
+  
 
 ## Adding more boards/functions to existing boards
 1) Add a RoveBoard_x.h for it. 
