@@ -32,5 +32,10 @@ static int dummySoThisRunsBeforeMain = (initSystem(), 0);
 #define analogWrite(x, y) ANALOGWRITE_NOT_ENABLED_SEE_ROVEBOARD_TIVA_TM4C_H
 #endif
 
+//EthernetUdp conflicts with RoveEthernet due to them both trying to command the lwip networking library to do different things.
+//You can only really have one or the other; define the constant below to use ethernetUdp instead of roveEthernet.
+#ifndef ETHERNETUDP_ENABLE
+#define EthernetUDP ETHERNETUDP_NOT_ENABLED_SEE_ROVEBOARD_TIVA_TM4C_H
+#endif
 
 #endif /* ROVEBOARD_ENERGIA_VERSION_ROVEBOARD_ROVEBOARDENERGIA_TIVATM4C1294NCPDT_H_ */
